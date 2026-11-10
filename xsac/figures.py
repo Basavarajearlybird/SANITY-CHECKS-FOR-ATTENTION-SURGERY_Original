@@ -332,8 +332,11 @@ def fig3_ladder(results: Path, out_dir: Path) -> List[Path]:
 
     fig, ax = plt.subplots(figsize=(7.4, 4.6))
     ax.axvspan(*XSA_TESTED_RANGE, color="#cfd8e8", alpha=0.45, zorder=0)
+    # Label the band inside the axes (x in data units, y in axes units), so it
+    # is always visible whatever the data range.
     ax.annotate("XSA's tested range\n0.7B - 2.7B",
-                xy=(math.sqrt(XSA_TESTED_RANGE[0] * XSA_TESTED_RANGE[1]), 0.02),
+                xy=(math.sqrt(XSA_TESTED_RANGE[0] * XSA_TESTED_RANGE[1]), 0.97),
+                xycoords=ax.get_xaxis_transform(), va="top",
                 fontsize=7.5, color=INK_SECONDARY, ha="center")
     xs = [p["params"] for p in points]
     for key, colour, marker, ls, label in (
@@ -345,9 +348,25 @@ def fig3_ladder(results: Path, out_dir: Path) -> List[Path]:
                 linestyle=ls, linewidth=1.8, markersize=7, label=label,
                 zorder=3)
     ax.set_xscale("log")
+    # Readable size labels instead of matplotlib's minor 10^n ticks, which
+    # overlap on this range.
+    from matplotlib.ticker import FixedLocator, FixedFormatter, NullFormatter
+    ticks = [1e8, 2e8, 5e8, 1e9, 2e9, 5e9, 1e10]
+    ax.xaxis.set_major_locator(FixedLocator(ticks))
+    ax.xaxis.set_major_formatter(FixedFormatter(
+        ["100M", "200M", "500M", "1B", "2B", "5B", "10B"]))
+    ax.xaxis.set_minor_formatter(NullFormatter())
+    ax.set_xlim(min(xs) / 1.25, max(xs) * 1.25)
     _style(ax, "parameters (log scale)", "cosine similarity (dimensionless)",
            "Figure 3  Check 1 across the scale ladder")
-    ax.legend(frameon=False, fontsize=8.5, loc="upper left")
+    # Headroom above the highest point, and the legend below the axes, so no
+    # marker (GPT-2's observed value is the highest) is hidden.
+    lo = min(min(p["cos_null"], p["excess"]) for p in points)
+    hi = max(p["cos_self"] for p in points)
+    pad = 0.08 * (hi - lo)
+    ax.set_ylim(lo - pad, hi + 2 * pad)
+    ax.legend(frameon=False, fontsize=8.5, loc="upper center",
+              bbox_to_anchor=(0.5, -0.16), ncol=3)
     total_heads = sum(p["n_heads"] for p in points)
     ax.annotate("n = {} models, {} heads".format(len(points), total_heads),
                 xy=(0.99, 0.02), xycoords="axes fraction", ha="right",
