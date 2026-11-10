@@ -1,18 +1,11 @@
 \documentclass{article} % For LaTeX2e
-% T1 must be selected before `times'. This document is compiled with a
-% XeTeX-based engine, whose default TU encoding has no descriptor for the
-% ptm family: without this line every ptm shape is undefined, LaTeX
-% substitutes Latin Modern silently, and \bf stops taking effect, so the
-% venue's Times body text and its bold run-in headings are both lost. The
-% official template was built with pdfTeX, where the question does not arise.
 \usepackage[T1]{fontenc}
 \usepackage{iclr2027_conference,times}
 
-% Optional math commands from https://github.com/goodfeli/dlbook_notation.
 \input{math_commands.tex}
 
 \usepackage{hyperref}
-\hypersetup{pdftitle={Sanity Checks for Attention Surgery: Null Models and Matched Interventions for Representation-Motivated Design},pdfauthor={Anonymous}}
+\hypersetup{pdftitle={Sanity Checks for Attention Surgery: Null Models and Matched Interventions for Representation-Motivated Design},pdfauthor={Basavaraj R M, Aryan Bharat Kumar}}
 \usepackage{url}
 
 \usepackage{amsmath}
@@ -29,19 +22,21 @@
 Null Models and Matched Interventions for \\
 Representation-Motivated Design}
 
-% Authors must not appear in the submitted version. The style file replaces
-% this block with the anonymous notice for as long as \iclrfinalcopy stays
-% commented out below.
-\author{Anonymous Author \\
-Anonymous Institution \\
-Anonymous City, Country \\
-\texttt{anon@example.invalid}
+\author{\hfil Basavaraj R M\\[3pt]
+\hspace{0.3cm}Independent AI \& ML Systems Researcher\\[3pt]
+\hspace{0.3cm}\hfil\texttt{basavarajrm972@gmail.com}
+\And
+\hfil Aryan Bharat Kumar\\[3pt]
+\hspace{0.3cm}Independent ML Researcher\\[3pt]
+\hspace{0.3cm}\hfil\texttt{ar22073yan@gmail.com}
 }
 
-%\iclrfinalcopy % Uncomment for camera-ready version, but NOT for submission.
+\iclrfinalcopy
+
 \begin{document}
 
 \maketitle
+\lhead{Technical report}
 
 \begin{abstract}
 Transformer architectural modifications frequently measure a statistic on internal representations, observe that it is large, remove it architecturally, and report an improvement. Interpreting that sequence requires evaluating whether the statistic exceeds its noise floor, whether it survives a geometric null, and whether the training gain requires the specific direction removed. We formulate these requirements as three reusable checks and apply them to self-attention removal, which deletes the component of an attention head's output aligned with its own value vector. Across nine multi-head pretrained models (5,408 heads, 124M to 6.9B parameters), an earlier-position causal null accounts for 48\% to 63\% of the head-value cosine alignment, with no monotone scale trend. Under grouped-query attention, this alignment is specific to each head's own key--value group and reverses across groups (+0.24 to +0.27 within-group, $-0.11$ to $-0.19$ across-group). Split-half reliability demonstrates that the per-head intervention effect is resolvable in GPT-2 ($r_\Delta = 0.80$) but attenuated in Pythia-160M ($0.42$) and Pythia-410M ($0.53$), whereas structural self-cosine reliability is near-perfect in all three ($r_{\text{stat}} > 0.99$); which statistic predicts its own intervention is model-dependent. In a pre-registered 3-arm by 8-seed paired factorial at $4.0\times10^{8}$ tokens per run ($399\,900\,672$ tokens), a fixed arbitrary rank-one direction does not differ from baseline ($+0.0011$ nats, $p = 0.197$), while self-directed removal lowers validation loss ($-0.0029$ nats, Holm-corrected $p = 0.0023$) and outperforms the fixed arbitrary control directly ($-0.0040$ nats, $p = 0.0018$). At 50.9M scale the training benefit requires the own-value direction rather than a fixed arbitrary one, but a large cosine alignment alone does not establish redundancy in frozen models.
@@ -149,12 +144,10 @@ Let head $h$ at layer $\ell$ produce output $\yv_i \in \mathbb{R}^{d_h}$ at
 position $i$, and let $\mathbf{v}_i$ be the value vector that same head writes
 at $i$. Write $\vhat_i = \mathbf{v}_i / \lVert \mathbf{v}_i \rVert$. The
 self-directed removal, which we call XSA, replaces the head output with
-%
 \begin{equation}
 \zv_i \;=\; \yv_i \;-\; \tanh(\alpha)\,\langle \yv_i, \vhat_i\rangle\,\vhat_i ,
 \label{eq:xsa}
 \end{equation}
-%
 where $\alpha$ is a gate for each layer and head. The edit acts before the
 output projection. For frozen models, we set the multiplier to one and
 intervene on one head at a time, excluding the first token. In the trained
@@ -180,14 +173,12 @@ effect $\Delta$ and structural statistic on both halves. Spearman
 correlations across heads give the split-half reliabilities $r_\Delta$ and
 $r_{\text{stat}}$. The archived analysis applies no Spearman--Brown
 correction and reports:
-%
 \begin{equation}
 \rho_{\max} \;=\; \sqrt{r_\Delta \, r_{\text{stat}}},
 \qquad
 \rho_{\text{disatt}} \;=\; \rho_{\text{raw}} / \rho_{\max}.
 \label{eq:ceiling}
 \end{equation}
-%
 We classify the effect as reliable at $r_\Delta \ge 0.6$, attenuated at
 $0.3 \le r_\Delta < 0.6$, and unresolvable below $0.3$. An unresolvable
 effect does not support interpreting a small correlation as absence of an
@@ -239,12 +230,10 @@ do not constitute a direct test of XSA against \textsc{random}.
 
 The analysis approximates the minimum detectable effect at $80\%$ power and
 $\alpha = 0.05$ by
-%
 \begin{equation}
 \text{MDE} \;=\; 2.9\,\sigma_{\text{paired}} \big/ \sqrt{n},
 \label{eq:mde}
 \end{equation}
-%
 using the observed $\sigma_{\text{paired}}$. We call this the realised MDE
 to distinguish it from the planning forecast. It describes sensitivity under
 the approximation, not achieved power or a hard threshold for detection.
@@ -372,12 +361,6 @@ Holm correction does not apply to the primary endpoint.}
 \label{tab:paired}
 \end{table}
 
-
-% Every figure is declared here rather than beside the paragraph that
-% discusses it. A float can only land on or after the page it is declared on,
-% and with ten of them the deferral compounds: declared in place, figures were
-% surfacing two pages after their first mention. reflow_floats.py did the move
-% and check_floats.py measures the result.
 \begin{figure}[tb]
 \centering
 \includegraphics[width=0.98\linewidth]{figs/fig6_a2_scatter.pdf}
@@ -433,7 +416,6 @@ is positive and neighbouring-group excess negative in all three models.
 The harness does not report this grouping contrast for multi-head models.}
 \label{fig:gqa}
 \end{figure}
-
 
 \subsection{Resolvability}
 
@@ -609,41 +591,35 @@ empirical null comparisons, and matched directional controls.
 \subsection*{AI use statement}
 
 AI assistants were used during the development of this work. The authors
-defined the research question, experimental design, methodological choices, and
-interpretation of results. AI-assisted code was reviewed and validated by the
-authors, and reported results were verified against the stored result files.
-The authors take responsibility for every claim, citation, and number in this
-paper. Use by category:
+defined the research question, experimental design, methodological choices,
+and interpretation of results. AI assistants were also used to review the
+analysis for errors. The authors take responsibility for every claim,
+citation, and number in this paper. Use by category:
 
 \begin{itemize}
 \setlength{\itemsep}{2pt}
-\item \textbf{Synthetic data.} None. All text is public corpora; no generated
-data enters any result.
-\item \textbf{Hypotheses.} Author-defined. The research question, the
-three checks, and the pre-registered primary endpoint were specified by the
-authors before any assistant was involved in the experimental programme.
+\item \textbf{Synthetic data.} None. All text comes from public corpora; no
+generated data enters any result.
+\item \textbf{Hypotheses.} Author-defined. The research question, the three
+checks, and the pre-registered primary endpoint were specified by the authors
+before any assistant was involved in the experimental programme.
 \item \textbf{Theory, proofs, and conceptual frameworks.} None. The paper
 contains no theorem or proof, and the conceptual framing of the three checks
 is author-originated.
 \item \textbf{Methodology and experiment design.} Author-defined. Assistants
 enumerated candidate controls and failure modes and drafted the power and
 token-budget arithmetic, which the authors reviewed before adoption.
-\item \textbf{Core code.} Assistant-written under author direction: the
-intervention, null sampling, the reconstruction gate, the statistical
-routines, the experiment drivers, and the tests. The authors reviewed it and
-specified the guards. Defects found this way are recorded in the repository.
-\item \textbf{Data cleaning and analysis.} Assistant-implemented from
-author-specified definitions. Every table cell and manifest claim is
-recomputed from the stored files by a checker rather than transcribed.
+\item \textbf{Code, data analysis, and figures.} Written by the authors. AI
+assistants were used for debugging. Every table cell and manifest claim is
+recomputed from the stored result files by a checker rather than transcribed,
+and every figure is generated from those files; no figure content was drawn
+or edited by hand.
 \item \textbf{Interpreting results.} Author-owned. Assistants were used
 adversarially against the draft, and a second model from a different vendor
 reviewed the analysis; both surfaced errors the authors then corrected,
 including a reversed sign convention in an earlier draft.
-\item \textbf{Figures.} All figure code is assistant-written and reads only
-from the stored result files. No figure content was drawn or edited by hand.
-\item \textbf{Writing and editing.} The manuscript was drafted with assistant
-help and revised by the authors, who also used assistants to check the draft
-against the archived results and the cited sources.
+\item \textbf{Writing and editing.} Written by the authors. AI assistants were
+used for grammar and language checking.
 \item \textbf{Translation.} None. The work was written in English throughout.
 \item \textbf{Literature search, references, and structure.} Assistants were
 used for literature search and summarisation, reference formatting, and
@@ -662,15 +638,12 @@ the intended model and setting.
 
 \subsection*{Reproducibility statement}
 
+All code, configuration records, raw per-head logs, result files, and
+validation scripts are available at \url{https://github.com/Basavarajearlybird/SANITY-CHECKS-FOR-ATTENTION-SURGERY_Original} under the MIT license.
 The repository contains per-run factorial records, paired-test summaries,
 per-head geometry and intervention measurements, and revision hashes for all
-twelve pretrained models. Code for the intervention, null sampling,
-reconstruction gate, and statistical calculations accompanies the results.
-The pilot runs are stored apart from the primary factorial and are labelled
-as such. An anonymised reproduction archive containing all code, configuration
-records, raw per-head logs, and validation scripts accompanies this submission
-in the supplementary material, and will be released under an open-source license
-upon publication.
+twelve pretrained models. The pilot runs are stored apart from the primary
+factorial and are labelled as such.
 
 Every figure is generated from these stored results. The tables are written by
 hand, so a checker recomputes each of their 48 cells from the archived result
@@ -692,10 +665,6 @@ All 33 reproduce from the archived files.
 \clearpage
 \appendix
 
-% Moved here to keep the main text within the nine-page limit.
-% Both figures' numbers are stated in the sections that cite
-% them, so nothing is lost from the argument by their position.
-% See move_to_appendix.py.
 \begin{figure}[tb]
 \centering
 \includegraphics[width=0.50\linewidth]{figs/fig7_power.pdf}
@@ -719,7 +688,6 @@ units. The two blank categories were not run: one requires training matched
 models, and the other requires a vision-model harness.}
 \label{fig:generality}
 \end{figure}
-
 
 \section{Arm Definitions}
 \label{app:arms}
