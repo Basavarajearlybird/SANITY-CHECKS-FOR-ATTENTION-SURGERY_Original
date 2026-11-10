@@ -11,10 +11,8 @@
   <b>Check 2: Does the training gain need that direction?</b>
 </p>
 
-<!-- Replace ARXIV_ID and ZENODO_DOI below once they are assigned. -->
 <p align="center">
-  <a href="https://arxiv.org/abs/ARXIV_ID"><img src="https://img.shields.io/badge/arXiv-ARXIV__ID-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv" /></a>
-  <a href="https://doi.org/ZENODO_DOI"><img src="https://img.shields.io/badge/Zenodo-DOI-1682D4?style=for-the-badge&logo=zenodo&logoColor=white" alt="Zenodo" /></a>
+  <a href="https://doi.org/10.5281/zenodo.24096410"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.24096410-1682D4?style=for-the-badge&logo=zenodo&logoColor=white" alt="Zenodo DOI" /></a>
   <a href="https://github.com/Basavarajearlybird/SANITY-CHECKS-FOR-ATTENTION-SURGERY_Original/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Basavarajearlybird/SANITY-CHECKS-FOR-ATTENTION-SURGERY_Original/ci.yml?branch=main&style=for-the-badge&label=CI" alt="CI" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-16A34A?style=for-the-badge" alt="MIT License" /></a>
 </p>
@@ -405,9 +403,9 @@ python scripts/make_manifest.py
   title         = {Sanity Checks for Attention Surgery: Null Models and Matched Interventions for Representation-Motivated Design},
   author        = {R M, Basavaraj and Kumar, Aryan Bharat},
   year          = {2026},
-  eprint        = {ARXIV_ID},
-  archivePrefix = {arXiv},
-  doi           = {ZENODO_DOI}
+  publisher     = {Zenodo},
+  doi           = {10.5281/zenodo.24096410},
+  url           = {https://doi.org/10.5281/zenodo.24096410}
 }
 ```
 
