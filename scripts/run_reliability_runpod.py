@@ -75,7 +75,7 @@ def wait_for_pod_ready(pod_id, timeout_sec=300):
     start = time.time()
     while time.time() - start < timeout_sec:
         info = runpod.get_pod(pod_id)
-        status = info.get("desiredStatus")
+    
         runtime = info.get("runtime")
         if runtime and runtime.get("ports"):
             ports = runtime["ports"]
