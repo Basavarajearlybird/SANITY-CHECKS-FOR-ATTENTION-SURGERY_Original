@@ -3,7 +3,7 @@
 # 🧠 Sanity Checks for Attention Surgery
 ### *Null Models and Matched Interventions for Representation-Motivated Design*
 
-**Basavaraj R M** · **Aryan Bharat Kumar**
+**Basavaraj R M** · **Aryan Bharat Kumar** · [arXiv:2611.13543](https://arxiv.org/abs/2611.13543) 
 
 <p align="center">
   <b>Check 0: Is the effect resolvable?</b> &nbsp;•&nbsp;
@@ -12,6 +12,7 @@
 </p>
 
 <p align="center">
+    <a href="https://arxiv.org/abs/2611.13543"><img src="https://img.shields.io/badge/arXiv-2611.13543-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white" alt="arXiv" /></a>
   <a href="https://doi.org/10.5281/zenodo.24096410"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.24096410-1682D4?style=for-the-badge&logo=zenodo&logoColor=white" alt="Zenodo DOI" /></a>
   <a href="https://github.com/Basavarajearlybird/SANITY-CHECKS-FOR-ATTENTION-SURGERY_Original/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/Basavarajearlybird/SANITY-CHECKS-FOR-ATTENTION-SURGERY_Original/ci.yml?branch=main&style=for-the-badge&label=CI" alt="CI" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-16A34A?style=for-the-badge" alt="MIT License" /></a>
@@ -403,9 +404,11 @@ python scripts/make_manifest.py
   title         = {Sanity Checks for Attention Surgery: Null Models and Matched Interventions for Representation-Motivated Design},
   author        = {R M, Basavaraj and Kumar, Aryan Bharat},
   year          = {2026},
-  publisher     = {Zenodo},
-  doi           = {10.5281/zenodo.24096410},
-  url           = {https://doi.org/10.5281/zenodo.24096410}
+  eprint        = {2611.13543},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.LG},
+  doi           = {10.48550/arXiv.2611.13543},
+  url           = {https://arxiv.org/abs/2611.13543}
 }
 ```
 
