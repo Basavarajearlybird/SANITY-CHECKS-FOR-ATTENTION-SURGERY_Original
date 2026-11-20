@@ -3,8 +3,6 @@
 # 🧠 Sanity Checks for Attention Surgery
 ### *Null Models and Matched Interventions for Representation-Motivated Design*
 
-**Basavaraj R M** · **Aryan Bharat Kumar** · [arXiv:2611.13543](https://arxiv.org/abs/2611.13543) 
-
 <p align="center">
   <b>Check 0: Is the effect resolvable?</b> &nbsp;•&nbsp;
   <b>Check 1: Does alignment beat a geometric null?</b> &nbsp;•&nbsp;
