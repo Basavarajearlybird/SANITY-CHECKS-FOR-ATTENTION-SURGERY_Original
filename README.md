@@ -206,6 +206,8 @@ Within each seed, all three arms share initialisation, token order, learning-rat
 | **Pythia-410M** | self-cosine | `−0.025` | `0.726` | `−0.034` |
 | | excess | `+0.249` | `0.727` | `+0.342` |
 
+> **Precision note.** Tables 1 and 2 were measured in `bfloat16` (reproduce by adding `--dtype bfloat16` to the Check 0 command in Section 7.2). A preliminary `float32` re-run (single run, CPU) gives higher effect reliability: r<sub>Δ</sub> = 0.914 for GPT-2 (vs 0.795) and 0.874 for Pythia-160M (vs 0.419), which moves Pythia-160M from *attenuated* to *reliable*. Low-precision rounding of the small per-head loss changes therefore accounts for much of the attenuation reported here. Pythia-410M has not yet been re-measured in `float32`; a full `float32` re-run will be reported in a later version.
+
 **Table 4. Extended reliability** (32 docs per half, `T = 128`, bfloat16; gate error 1.66 × 10<sup>−3</sup>)
 
 | Model | Statistic | r<sub>Δ</sub> | r<sub>stat</sub> | ρ<sub>max</sub> | ρ<sub>raw</sub> | ρ<sub>disatt</sub> | Verdict |
@@ -232,6 +234,8 @@ Within each seed, all three arms share initialisation, token order, learning-rat
 | GPT-2 XL (1.5B) | 1,200 | `0.386` | `0.207` | `0.179` | `53.6%` |
 | Pythia-2.8B | 1,024 | `0.356` | `0.186` | `0.171` | `52.2%` |
 | Pythia-6.9B | 1,024 | `0.340` | `0.198` | `0.143` | `58.1%` |
+
+> **Precision note.** These values were measured in `bfloat16` (reproduce with the `run_frozen.py --ladder` command in Section 7.2). Precision matters for Pythia: in `float32`, the null share falls from 63.1% to 48.2% for Pythia-160M and from 48.1% to 41.4% for Pythia-410M, while the excess stays positive (0.154 → 0.184 and 0.209 → 0.226). GPT-2 is unaffected. The conclusion, that background geometry explains roughly half of the head–value alignment, holds in both precisions.
 
 **Grouped-query attention** (both values subtract the own-group earlier-position null)
 
@@ -366,7 +370,7 @@ Use `python -m pytest` rather than bare `pytest` on Windows.
 
 ```bash
 # Check 0: reliability (Tables 1, 2)
-python scripts/run_reliability.py --models gpt2 EleutherAI/pythia-160m EleutherAI/pythia-410m --n-docs 64 --seq-len 128 --device cuda
+python scripts/run_reliability.py --models gpt2 EleutherAI/pythia-160m EleutherAI/pythia-410m --n-docs 64 --seq-len 128 --device cuda --dtype bfloat16
 
 # Check 1: model ladder and grouped-query models
 python scripts/run_frozen.py --ladder --n-docs 32 --block 512 --device cuda --dtype bfloat16
