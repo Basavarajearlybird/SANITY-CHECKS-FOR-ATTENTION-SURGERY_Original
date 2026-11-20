@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the paper below."
+title: "Sanity Checks for Attention Surgery: Null Models and Matched Interventions for Representation-Motivated Design (code and data)"
+type: software
+authors:
+  - family-names: "Basavaraj"
+    given-names: "R M"
+    orcid: "https://orcid.org/0009-0002-4758-0965"
+  - family-names: "Kumar"
+    given-names: "Aryan Bharat"
+version: "1.0.0"
+date-released: "2026-11-10"
+license: MIT
+repository-code: "https://github.com/Basavarajearlybird/SANITY-CHECKS-FOR-ATTENTION-SURGERY_Original"
+doi: "10.5281/zenodo.24096410"
+preferred-citation:
+  type: article
+  title: "Sanity Checks for Attention Surgery: Null Models and Matched Interventions for Representation-Motivated Design"
+  authors:
+    - family-names: "Basavaraj"
+      given-names: "R M"
+    - family-names: "Kumar"
+      given-names: "Aryan Bharat"
+  journal: "arXiv preprint arXiv:2611.13543"
+  doi: "10.48550/arXiv.2611.13543"
+  url: "https://arxiv.org/abs/2611.13543"
+  year: 2026
