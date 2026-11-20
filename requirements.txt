@@ -6,12 +6,16 @@ matplotlib>=3.7
 pandas>=2.0
 tqdm>=4.65
 
-# Data preparation (FineWeb-Edu). Optional for the CPU test suite.
-datasets>=2.14
+# Data preparation (FineWeb-Edu, WikiText). Optional for the CPU test suite.
+# datasets<4 and pyarrow<21 keep data loading compatible with numpy<2.
+datasets>=2.14,<4
+pyarrow<21
+huggingface-hub<1
 tiktoken>=0.5
 
 # Track A frozen-model audits. Optional for the CPU test suite.
-transformers>=4.40
+# transformers<5: in 5.x an unspecified dtype loads Pythia in float16.
+transformers>=4.40,<5
 accelerate>=0.25
 
 # Test suite
